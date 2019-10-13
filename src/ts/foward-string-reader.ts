@@ -22,7 +22,9 @@ class ForwardStringReader {
 
     /** Moves the cursor forward and returns the new selected character, or null if te cursor reached the end of the string. */
     public next(): string | null {
-        this.cursor++;
+        if (!this.endOfString) {
+            this.cursor++;
+        }
         return this.current;
     }
 
@@ -37,6 +39,18 @@ class ForwardStringReader {
 
     public substring(start: number, end: number): string {
         return this.stringToRead.substring(start, end);
+    }
+
+    /* Returns the number of skipped whitespace characters */
+    public skipWhitespaces(): number {
+        let numberOfWhitespaces = 0;
+
+        while (this.current && this.current.match(/\s/)) {
+            numberOfWhitespaces++;
+            this.next();
+        }
+
+        return numberOfWhitespaces;
     }
 }
 
