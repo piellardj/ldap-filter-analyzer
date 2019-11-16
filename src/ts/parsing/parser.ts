@@ -56,29 +56,27 @@ class Parser {
         input.skipWhitespaces();
 
         let node : LdapNode = null;
-        while (!input.endOfString && input.current !== ")") {
-            if (AggregationNode.isAggregationCharacter(input.current)) {
-                const partialNode = new AggregationNode(input.current);
+        if (AggregationNode.isAggregationCharacter(input.current)) {
+            const partialNode = new AggregationNode(input.current);
 
-                input.next();
+            input.next();
+            input.skipWhitespaces();
+            while (input.current === "(") {
+                partialNode.children.push(Parser.parseNode(input));
                 input.skipWhitespaces();
-                while (input.current === "(") {
-                    partialNode.children.push(Parser.parseNode(input));
-                    input.skipWhitespaces();
-                }
-
-                if (!partialNode.isValid()) {
-                    throw new ParsingError(input.currentIndex, "Invalid agregation node");
-                }
-
-                node = partialNode;
-            } else {
-                const startIndex = input.currentIndex;
-                while (!input.endOfString && input.current !== ")") {
-                    input.next();
-                }
-                node = new ComparisonNode(input.substring(startIndex, input.currentIndex));
             }
+
+            if (!partialNode.isValid()) {
+                throw new ParsingError(input.currentIndex, "Invalid agregation node");
+            }
+
+            node = partialNode;
+        } else {
+            const startIndex = input.currentIndex;
+            while (!input.endOfString && input.current !== ")") {
+                input.next();
+            }
+            node = new ComparisonNode(input.substring(startIndex, input.currentIndex));
         }
 
         return node;
