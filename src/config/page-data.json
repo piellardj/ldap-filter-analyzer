@@ -1,0 +1,19 @@
+{
+    "title": "LDAP filter analyzer",
+    "description": "Simple LDAP filter formatter",
+    "introduction": [
+        "This is a simple LDAP filter formatter."
+    ],
+    "githubProjectName": "ldap-filter-analyzer",
+    "additionalLinks": [],
+    "scriptFiles": [
+        "script/main.js"
+    ],
+    "indicators": [],
+    "canvas": {
+        "width": 512,
+        "height": 512,
+        "enableFullscreen": false
+    },
+    "controlsSections": []
+}

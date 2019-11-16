@@ -6,8 +6,18 @@ import ComparisonNode from "../nodes/comparison-node";
 import LdapNode from "../nodes/inode";
 
 class Parser {
+    public static parseString(input: ForwardStringReader): LdapNode {
+        const result: LdapNode = Parser.parseNode(input);
+        
+        if (!input.endOfString) {
+            throw new ParsingError(input.currentIndex, "Invalid character");
+        }
+
+        return result;
+    }
+
     /** Leaves the cursor after the last ')' */
-    public static parseNode(input: ForwardStringReader): LdapNode {
+    private static parseNode(input: ForwardStringReader): LdapNode {
         let nbClosingParenthesisExpected = 0;
         let node: LdapNode = null;
 

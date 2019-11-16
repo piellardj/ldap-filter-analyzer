@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Simple LDAP filter formatter" />
+  <title>LDAP filter analyzer</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96">
+  <link rel="stylesheet" type="text/css" href="css/page.css">
+  <style>
+    .block {
+      margin: 16px;
+    }
+    
+    .node .node {
+      padding-left: 2em;
+    }
+
+    .operator {
+      font-weight: bold;
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <a class="logo" href="https://piellardj.github.io"></a>
+  </header>
+
+  <main>
+    <div class="intro">
+      <h1>LDAP filter analyzer</h1>
+
+      <div class="description">
+        <p>This is a simple LDAP filter formatter.</p>
+
+        <br>
+
+        <a href="https://github.com/piellardj/ldap-filter-analyzer">More on GitHub</a>
+      </div>
+    </div>
+
+    <div id="error-messages">
+      <noscript>
+        You need to enable Javascript to run this experiment.
+      </noscript>
+    </div>
+
+    <div class="demo" style="max-width:1100px;width:100%;padding:8px;margin:auto;box-sizing:border-box;">
+      <textarea id="input" rows="1" style="width:100%;margin:16px;border:1px solid #c9c9c9;border-radius:9px;resize:none;outline:none;padding:8px"></textarea>
+
+      <div id="result" style="text-align:left;padding:16px;border-radius:9px;border:1px solid #c9c9c9;width:100%;min-height:32px;margin:16px;background:#eee">
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="badge-shelf">
+      <a class="badge" href="mailto:jeremie.piellard@gmail.com" title="Mail">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32px" height="32px" viewBox="0 0 512 512">
+          <path d="M512 85V448H0V85l256 224L512 85zM488 64H24L256 267 488 64z" />
+        </svg>
+      </a>
+
+      <a class="badge" href="https://github.com/piellardj" title="GitHub">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32px" height="32px" viewBox="0 0 1024 1024">
+          <path
+            d="M512 0C229 0 0 229 0 512c0 226 147 418 350 486 26 5 35-11 35-25 0-12 0-53-1-95C242 909 212 818 212 818c-23-59-57-75-57-75-47-32 4-31 4-31 51 4 78 53 78 53 46 78 120 56 149 43 5-33 18-56 33-68C305 725 185 682 185 485c0-56 20-102 53-137-5-13-23-65 5-136 0 0 43-14 141 53 41-11 85-17 128-17 44 0 87 6 128 17 98-66 141-52 141-52 28 71 10 123 5 136 33 36 53 81 53 137 0 197-120 240-234 253 18 16 35 47 35 95 0 68-1 124-1 141 0 14 9 30 35 25C877 930 1024 738 1024 512 1024 229 795 0 512 0z" />
+        </svg>
+      </a>
+
+      <a class="badge" href="https://www.linkedin.com/in/jeremie-piellard/" title="LinkedIn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32px" height="32px" viewBox="0 0 512 512">
+          <path d="M30 177l93-1v304l-93 1v-304z" />
+          <path
+            d="M200 177l89-1v39l0 11c26-26 53-45 97-45 51 0 100 21 100 91v208l-90 1v-159c0-35-9-58-51-58-37 0-52 7-52 55v160l-92 1v-304z" />
+          <path d="M128 81c0 28-23 51-51 51s-51-23-51-51c0-28 23-51 51-51 28 0 51 23 51 51z" />
+        </svg>
+      </a>
+    </div>
+  </footer>
+  <script src="script/main.min.js"></script>
+</body>
+
+</html>
