@@ -41,6 +41,13 @@ window.addEventListener("load", function analyzeAll(): void {
     }
 
     analyzeButton.addEventListener("click", updateResult);
+    inputElement.element.addEventListener("keydown", function (event: KeyboardEvent) {
+        console.log(event.keyCode);
+        if (event.keyCode === 13) {// enter
+            event.preventDefault();
+            updateResult();
+        }
+    });
 
     function highlightHoveredNode(event: MouseEvent): void {
         const hoveredNode = (event.target as HTMLElement).closest("#result .node") as HTMLElement;

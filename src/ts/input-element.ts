@@ -1,5 +1,5 @@
 class InputElement {
-    private element: HTMLElement;
+    public element: HTMLElement;
 
     public constructor(elementId: string) {
         const element = document.getElementById(elementId);
