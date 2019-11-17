@@ -68,19 +68,13 @@ window.addEventListener("load", function analyzeAll(): void {
     inputElement.addEventListener("keyup", updateResult);
 
     function highlightHoveredNode(event: MouseEvent): void {
-        const target = event.target as HTMLElement;
+        const hoveredNode = (event.target as HTMLElement).closest("#result .node") as HTMLElement;
 
-        const nodes = resultElement.querySelectorAll(".node");
-        for (let i = 0; i < nodes.length; i++) {
-            nodes[i].classList.remove("hovered");
-        }
+        if (hoveredNode !== null && !hoveredNode.classList.contains("hovered")) {
+            hoveredNode.classList.add("hovered");
 
-        const hovered = (target as HTMLElement).closest("#result .node") as HTMLElement;
-        if (hovered !== null) {
-            hovered.classList.add("hovered");
-
-            const startIndex = +hovered.dataset.startIndex;
-            const endIndex = +hovered.dataset.endIndex;
+            const startIndex = +hoveredNode.dataset.startIndex;
+            const endIndex = +hoveredNode.dataset.endIndex;
 
             const inputText = inputElement.textContent;
             const nodes: any[] = [];
@@ -92,13 +86,25 @@ window.addEventListener("load", function analyzeAll(): void {
             nodes.push(span);
 
             nodes.push(document.createTextNode(inputText.substring(endIndex)));
-            
+
             inputElement.innerHTML = "";
             for (let i = 0; i < nodes.length; i++) {
                 inputElement.appendChild(nodes[i]);
             }
         } else {
-            inputElement.textContent = inputElement.textContent;
+            let highlightCleared = false;
+
+            const nodes = resultElement.querySelectorAll(".node");
+            for (let i = 0; i < nodes.length; i++) {
+                if (nodes[i] !== hoveredNode && nodes[i].classList.contains("hovered")) {
+                    highlightCleared = true;
+                    nodes[i].classList.remove("hovered");
+                }
+            }
+
+            if (highlightCleared) {
+                inputElement.textContent = inputElement.textContent;
+            }
         }
     }
 
