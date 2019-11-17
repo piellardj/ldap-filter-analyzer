@@ -40,7 +40,7 @@ window.addEventListener("load", function analyzeAll(): void {
     const resultElement = document.getElementById("result");
 
     function updateResult(): void {
-        const textToAnalyze: string = inputElement.value;
+        const textToAnalyze: string = inputElement.textContent;
         const stringReader = new ForwardStringReader(textToAnalyze);
 
         let rootNode: INode;
@@ -65,9 +65,9 @@ window.addEventListener("load", function analyzeAll(): void {
     }
 
     inputElement.addEventListener("keyup", updateInputHeight);
-    inputElement.addEventListener("input", updateResult);
+    inputElement.addEventListener("keyup", updateResult);
 
-    inputElement.value = "&((  |(hihi)(huhu)))   (huhu)";
+    inputElement.textContent = "&((  |(hihi)(huhu)))   (huhu)";
     updateResult();
 });
 
