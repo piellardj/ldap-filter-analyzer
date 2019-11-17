@@ -68,7 +68,7 @@ class AggregationNode implements INode {
         divElement.className = "node";
         divElement.dataset.startIndex = this.startIndex.toString();
         divElement.dataset.endIndex = this.endIndex.toString();
-        
+
         if (this.operation === AggregationOperation.AND || this.operation === AggregationOperation.OR) {
             divElement.appendChild(this.children[0].toHTML());
 
@@ -88,6 +88,9 @@ class AggregationNode implements INode {
             operatorElement.textContent = "not ";
 
             divElement.appendChild(operatorElement);
+            const childElement = this.children[0].toHTML();
+            childElement.classList.add("node-inline");
+            divElement.appendChild(childElement);
         }
         return divElement;
     }
