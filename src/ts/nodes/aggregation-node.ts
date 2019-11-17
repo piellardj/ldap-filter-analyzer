@@ -66,7 +66,9 @@ class AggregationNode implements INode {
     public toHTML(): HTMLElement {
         const divElement = document.createElement("div");
         divElement.className = "node";
-
+        divElement.dataset.startIndex = this.startIndex.toString();
+        divElement.dataset.endIndex = this.endIndex.toString();
+        
         if (this.operation === AggregationOperation.AND || this.operation === AggregationOperation.OR) {
             divElement.appendChild(this.children[0].toHTML());
 
