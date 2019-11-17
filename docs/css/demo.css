@@ -1,0 +1,60 @@
+.node .node {
+    margin-left: 2.5em;
+    padding-left: .5em;
+    vertical-align: middle;
+}
+
+.node.node-inline {
+    display: inline-block;
+    margin-left: 0;
+}
+
+.operator, .comparison {
+    font-weight: bold;
+    color: #009688;
+}
+
+.hovered {
+    background: rgba(0, 150, 136, 0.2);
+}
+
+.error {
+    background: rgba(255, 0, 0, 0.5);
+}
+
+#contents {
+    max-width: 800px;
+    width: 100%;
+    padding: 8px;
+    margin: auto;
+    box-sizing: border-box;
+    margin-top: 64px;
+}
+
+#input {
+    background: white;
+    resize: none;
+    outline: none;
+    padding: 8px;
+}
+
+#error-messages {
+    width: 100%;
+}
+
+#error-messages:empty {
+    margin: 0;
+}
+
+#result {
+    padding: 16px;
+    min-height: 32px;
+    background: #eee
+}
+
+.section {
+    margin: 16px;
+    border-radius: 9px;
+    border: 1px solid #c9c9c9;
+    text-align: left;
+}
