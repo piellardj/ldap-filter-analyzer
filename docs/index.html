@@ -34,6 +34,18 @@
     .error {
       background: rgba(255,0,0, 0.5);
     }
+
+    #error-messages {
+      width: 100%;
+    }
+
+    #error-messages:empty {
+      margin: 0;
+    }
+    
+    .intro {
+      margin-bottom: 64px;
+    }
   </style>
 </head>
 
@@ -55,15 +67,16 @@
       </div>
     </div>
 
-    <div id="error-messages">
-      <noscript>
-        You need to enable Javascript to run this experiment.
-      </noscript>
-    </div>
-
     <div class="demo" style="max-width:1100px;width:100%;padding:8px;margin:auto;box-sizing:border-box;">
       <div id="input" contenteditable="true" style="background:white;text-align:left;width:100%;margin:16px;border:1px solid #c9c9c9;border-radius:9px;resize:none;outline:none;padding:8px"></div>
       <button id="trigger-analyze">Analyze</button>
+
+      <div id="error-messages">
+        <noscript>
+          You need to enable Javascript to run this experiment.
+        </noscript>
+      </div>
+
       <div id="result" style="text-align:left;padding:16px;border-radius:9px;border:1px solid #c9c9c9;width:100%;min-height:32px;margin:16px;background:#eee">
       </div>
     </div>
