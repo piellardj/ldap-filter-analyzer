@@ -55,35 +55,41 @@ class Parser {
     private static parseNodeInner(input: ForwardStringReader): LdapNode {
         input.skipWhitespaces();
 
-        let node : LdapNode = null;
         if (AggregationNode.isAggregationCharacter(input.current)) {
-            const partialNode = new AggregationNode(input.current);
-            partialNode.startIndex = input.currentIndex;
-
-            input.next();
-            input.skipWhitespaces();
-            while (input.current === "(") {
-                partialNode.children.push(Parser.parseNode(input));
-                input.skipWhitespaces();
-            }
-
-            partialNode.endIndex = input.currentIndex;
-
-            if (!partialNode.isValid()) {
-                throw new ParsingError(input.currentIndex, "Invalid agregation node");
-            }
-
-            node = partialNode;
+            return Parser.parseNodeInnerAggregation(input);
         } else {
-            const startIndex = input.currentIndex;
-            while (!input.endOfString && input.current !== ")") {
-                input.next();
-            }
-            node = new ComparisonNode(input.substring(startIndex, input.currentIndex));
-            node.startIndex = startIndex;
-            node.endIndex = input.currentIndex;
+            return Parser.parseNodeInnerComparison(input);
+        }
+    }
+
+    private static parseNodeInnerAggregation(input: ForwardStringReader): AggregationNode {
+        const partialNode = new AggregationNode(input.current);
+        partialNode.startIndex = input.currentIndex;
+
+        input.next();
+        input.skipWhitespaces();
+        while (input.current === "(") {
+            partialNode.children.push(Parser.parseNode(input));
+            input.skipWhitespaces();
         }
 
+        partialNode.endIndex = input.currentIndex;
+
+        if (!partialNode.isValid()) {
+            throw new ParsingError(input.currentIndex, "Invalid agregation node");
+        }
+
+        return partialNode;
+    }
+
+    private static parseNodeInnerComparison(input: ForwardStringReader): ComparisonNode {
+        const startIndex = input.currentIndex;
+        while (!input.endOfString && input.current !== ")") {
+            input.next();
+        }
+        const node = new ComparisonNode(input.substring(startIndex, input.currentIndex));
+        node.startIndex = startIndex;
+        node.endIndex = input.currentIndex;
         return node;
     }
 }
