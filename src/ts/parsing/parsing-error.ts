@@ -9,7 +9,7 @@ class ParsingError {
     }
 
     public toString(): string {
-        return "Parsing error at " + this.position + ": " + this.message;
+        return "Parsing error at position " + this.position + ": " + this.message;
     }
 }
 

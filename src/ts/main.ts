@@ -4,6 +4,7 @@ import Parser from "./parsing/parser";
 import INode from "./nodes/inode";
 
 import InputElement from "./input-element";
+import ParsingError from "./parsing/parsing-error";
 
 const testedStrings: string[] = [
     "",
@@ -55,6 +56,9 @@ window.addEventListener("load", function analyzeAll(): void {
         } catch (e) {
             resultElement.innerHTML = "";
             errorMessageElement.textContent = e.toString();
+
+            const parsingError = e as ParsingError;
+            inputElement.applyClassToSubstring(parsingError.position, parsingError.position + 1, "error");
         }
     }
 
