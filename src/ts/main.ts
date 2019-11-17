@@ -67,6 +67,43 @@ window.addEventListener("load", function analyzeAll(): void {
     inputElement.addEventListener("keyup", updateInputHeight);
     inputElement.addEventListener("keyup", updateResult);
 
+    function highlightHoveredNode(event: MouseEvent): void {
+        const target = event.target as HTMLElement;
+
+        const nodes = resultElement.querySelectorAll(".node");
+        for (let i = 0; i < nodes.length; i++) {
+            nodes[i].classList.remove("hovered");
+        }
+
+        const hovered = (target as HTMLElement).closest("#result .node") as HTMLElement;
+        if (hovered !== null) {
+            hovered.classList.add("hovered");
+
+            const startIndex = +hovered.dataset.startIndex;
+            const endIndex = +hovered.dataset.endIndex;
+
+            const inputText = inputElement.textContent;
+            const nodes: any[] = [];
+            nodes.push(document.createTextNode(inputText.substring(0, startIndex)));
+
+            const span = document.createElement("span");
+            span.className = "hovered";
+            span.textContent = inputText.substring(startIndex, endIndex);
+            nodes.push(span);
+
+            nodes.push(document.createTextNode(inputText.substring(endIndex)));
+            
+            inputElement.innerHTML = "";
+            for (let i = 0; i < nodes.length; i++) {
+                inputElement.appendChild(nodes[i]);
+            }
+        } else {
+            inputElement.textContent = inputElement.textContent;
+        }
+    }
+
+    document.addEventListener("mousemove", highlightHoveredNode);
+
     inputElement.textContent = "&((  |(hihi)(huhu)))   (huhu)";
     updateResult();
 });
