@@ -2,13 +2,13 @@ import ForwardStringReader from "./foward-string-reader";
 import ParsingError from "./parsing-error";
 
 import AggregationNode from "../nodes/aggregation-node";
-import ComparisonNode from "../nodes/comparison-node";
+import { ComparisonNode, EComparison } from "../nodes/comparison-node";
 import LdapNode from "../nodes/inode";
 
 class Parser {
     public static parseString(input: ForwardStringReader): LdapNode {
         const result: LdapNode = Parser.parseNode(input);
-        
+
         if (!input.endOfString) {
             throw new ParsingError(input.currentIndex, "Invalid character");
         }
@@ -84,12 +84,64 @@ class Parser {
 
     private static parseNodeInnerComparison(input: ForwardStringReader): ComparisonNode {
         const startIndex = input.currentIndex;
+
+        let comparison: EComparison = null;
+
+        const leftStartIndex = input.currentIndex;
+        let leftEndIndex = null;
+
+        let rightStartIndex = null;
+        let rightEndIndex = null;
         while (!input.endOfString && input.current !== ")") {
+            if (leftEndIndex === null && ComparisonNode.isComparisonCharacter(input.current)) {
+                leftEndIndex = input.currentIndex;
+
+                if (leftEndIndex === startIndex) {
+                    throw new ParsingError(input.currentIndex, "Missing left term of comparison")
+                }
+
+                if (input.current === "=") {
+                    comparison = EComparison.EQUALS;
+                } else if (input.current === "<") {
+                    if (input.next() !== "=") {
+                        throw new ParsingError(input.currentIndex, "Expected '=' character");
+                    }
+                    comparison = EComparison.LOWER_THAN;
+                } else if (input.current === ">") {
+                    if (input.next() !== "=") {
+                        throw new ParsingError(input.currentIndex, "Expected '=' character");
+                    }
+                    comparison = EComparison.GREATER_THAN;
+                } else if (input.current === "~") {
+                    if (input.next() !== "=") {
+                        throw new ParsingError(input.currentIndex, "Expected '=' character");
+                    }
+                    comparison = EComparison.PROXIMITY;
+                }
+
+                rightStartIndex = input.currentIndex + 1;
+            }
+
             input.next();
         }
-        const node = new ComparisonNode(input.substring(startIndex, input.currentIndex));
+
+        if (comparison === null) {
+            throw new ParsingError(input.currentIndex, "Expected comparison operator '=', '<=', '>=' or '~='")
+        }
+
+        rightEndIndex = input.currentIndex;
+
+        if (rightEndIndex === rightStartIndex) {
+            throw new ParsingError(input.currentIndex, "Missing right term of comparison");
+        }
+
+        const lefthand = input.substring(leftStartIndex, leftEndIndex);
+        const righthand = input.substring(rightStartIndex, rightEndIndex);
+
+        const node = new ComparisonNode(lefthand, righthand, comparison);
         node.startIndex = startIndex;
         node.endIndex = input.currentIndex;
+
         return node;
     }
 }
