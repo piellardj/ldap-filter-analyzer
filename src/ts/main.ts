@@ -6,6 +6,21 @@ import INode from "./nodes/inode";
 import InputElement from "./input-element";
 import ParsingError from "./parsing/parsing-error";
 
+// IE11 polyfills
+Element.prototype.matches = Element.prototype.matches || (Element.prototype as any).msMatchesSelector;
+
+if (typeof Element.prototype.closest === "undefined") {
+    Element.prototype.closest = function closest(criteria: string): Element | null {
+        let current = this;
+
+        while (current && !current.matches(criteria)) {
+            current = current.parentElement;
+        }
+
+        return current;
+    };
+}
+
 window.addEventListener("load", function analyzeAll(): void {
     const errorMessageElement = document.getElementById("error-messages");
     const inputElement = new InputElement("input");
