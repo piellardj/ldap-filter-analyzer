@@ -7,6 +7,9 @@ enum AggregationOperation {
 }
 
 class AggregationNode implements INode {
+    public startIndex: number;
+    public endIndex: number;
+    
     public operation: AggregationOperation = null;
     public children: INode[] = null;
 

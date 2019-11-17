@@ -58,6 +58,7 @@ class Parser {
         let node : LdapNode = null;
         if (AggregationNode.isAggregationCharacter(input.current)) {
             const partialNode = new AggregationNode(input.current);
+            partialNode.startIndex = input.currentIndex;
 
             input.next();
             input.skipWhitespaces();
@@ -65,6 +66,8 @@ class Parser {
                 partialNode.children.push(Parser.parseNode(input));
                 input.skipWhitespaces();
             }
+
+            partialNode.endIndex = input.currentIndex;
 
             if (!partialNode.isValid()) {
                 throw new ParsingError(input.currentIndex, "Invalid agregation node");
@@ -77,6 +80,8 @@ class Parser {
                 input.next();
             }
             node = new ComparisonNode(input.substring(startIndex, input.currentIndex));
+            node.startIndex = startIndex;
+            node.endIndex = input.currentIndex;
         }
 
         return node;
