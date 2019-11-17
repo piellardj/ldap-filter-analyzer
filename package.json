@@ -4,9 +4,9 @@
   "homepage": "https://piellardj.github.io/ldap-filter-analyzer",
   "description": "Tool to make LDAP filters readable",
   "scripts": {
-    "build": "npm run webpack",
+    "build": "npm run build-page && npm run webpack",
     "build-page": "node src/generate-page.js",
-    "clean": "shx rm -rf docs/script",
+    "clean": "shx rm -rf docs/*",
     "lint": "tslint -c src/config/tslint.json -p src/config/tsconfig.json",
     "test": "jest --config=src/config/jest.config.js",
     "rebuild": "npm run clean && npm run build",
