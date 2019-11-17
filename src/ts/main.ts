@@ -6,38 +6,7 @@ import INode from "./nodes/inode";
 import InputElement from "./input-element";
 import ParsingError from "./parsing/parsing-error";
 
-const testedStrings: string[] = [
-    "",
-    "()",
-    "((()))",
-    "  (  ( ()) )",
-    "(",
-    " ( (())",
-    "(()&",
-    "(hihi)",
-    "( (hihi)       )",
-    "&(hoho)(huhu)",
-    "  |   (hoho)   (huhu)",
-    "&((  |(hihi)(huhu)))   (huhu)",
-    "&()(huhu)(haha)",
-    "!(huhu)",
-    "!(huhu)(haha)",
-];
-
-function analyze(reader: ForwardStringReader): string {
-    try {
-        const node: INode = Parser.parseString(reader);
-        return "valid '" + node.toString() + "'";
-    } catch (e) {
-        return e.toString();
-    }
-}
-
 window.addEventListener("load", function analyzeAll(): void {
-    for (const toAnalyze of testedStrings) {
-        console.log(toAnalyze + " : " + analyze(new ForwardStringReader(toAnalyze)));
-    }
-
     const errorMessageElement = document.getElementById("error-messages");
     const inputElement = new InputElement("input");
     const analyzeButton = document.getElementById("trigger-analyze");
