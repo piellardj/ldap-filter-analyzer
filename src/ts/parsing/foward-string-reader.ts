@@ -20,7 +20,9 @@ class ForwardStringReader {
         return this.cursor;
     }
 
-    /** Moves the cursor forward and returns the new selected character, or null if te cursor reached the end of the string. */
+    /** Moves the cursor forward and returns the new selected character,
+     * or null if the cursor reached the end of the string.
+     */
     public next(): string | null {
         if (!this.endOfString) {
             this.cursor++;

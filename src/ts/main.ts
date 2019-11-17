@@ -15,7 +15,7 @@ window.addEventListener("load", function analyzeAll(): void {
     let lastText = inputElement.text;
     function updateResult(): void {
         const textToAnalyze: string = inputElement.text;
-        
+
         if (textToAnalyze === lastText) {
             lastText = textToAnalyze;
             return;
@@ -41,9 +41,8 @@ window.addEventListener("load", function analyzeAll(): void {
     }
 
     analyzeButton.addEventListener("click", updateResult);
-    inputElement.element.addEventListener("keydown", function (event: KeyboardEvent) {
-        console.log(event.keyCode);
-        if (event.keyCode === 13) {// enter
+    inputElement.element.addEventListener("keydown", (event: KeyboardEvent) => {
+        if (event.keyCode === 13) { // enter
             event.preventDefault();
             updateResult();
         }
@@ -78,4 +77,3 @@ window.addEventListener("load", function analyzeAll(): void {
     inputElement.text = "&((  |(hihi)(huhu)))   (huhu)";
     updateResult();
 });
-

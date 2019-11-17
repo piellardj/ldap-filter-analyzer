@@ -7,15 +7,15 @@ enum AggregationOperation {
 }
 
 class AggregationNode implements INode {
-    public startIndex: number;
-    public endIndex: number;
-    
-    public operation: AggregationOperation = null;
-    public children: INode[] = null;
-
     public static isAggregationCharacter(character: string): boolean {
         return character === "&" || character === "|" || character === "!";
     }
+
+    public startIndex: number;
+    public endIndex: number;
+
+    public operation: AggregationOperation = null;
+    public children: INode[] = null;
 
     public constructor(operation: string) {
         this.children = [];

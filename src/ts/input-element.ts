@@ -7,9 +7,9 @@ class InputElement {
         element.addEventListener("keyup", function updateInputHeight(): void {
             const inputPadding = 8;
 
-            element.style.overflow = 'hidden';
+            element.style.overflow = "hidden";
             element.style.height = "0";
-            element.style.height = (element.scrollHeight - 2 * inputPadding) + 'px';
+            element.style.height = (element.scrollHeight - 2 * inputPadding) + "px";
         });
 
         this.element = element;

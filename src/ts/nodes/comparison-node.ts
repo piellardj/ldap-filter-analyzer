@@ -13,6 +13,10 @@ enum EComparison {
 }
 
 class ComparisonNode implements INode {
+    public static isComparisonCharacter(character: string): boolean {
+        return character === "=" || character === "<" || character === ">" || character === "~";
+    }
+
     public startIndex: number;
     public endIndex: number;
 
@@ -20,10 +24,6 @@ class ComparisonNode implements INode {
 
     public lefthand: string;
     public righthand: string;
-
-    public static isComparisonCharacter(character: string): boolean {
-        return character === "=" || character === "<" || character === ">" || character === "~";
-    }
 
     public constructor(lefthand: string, righthand: string, comparison: EComparison) {
         this.lefthand = lefthand;
@@ -66,7 +66,7 @@ class ComparisonNode implements INode {
     }
 
     public toHTML(): HTMLElement {
-        const divElement = document.createElement("div")
+        const divElement = document.createElement("div");
         divElement.className = "node";
         divElement.dataset.startIndex = this.startIndex.toString();
         divElement.dataset.endIndex = this.endIndex.toString();

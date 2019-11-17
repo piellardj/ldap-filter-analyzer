@@ -97,7 +97,7 @@ class Parser {
                 leftEndIndex = input.currentIndex;
 
                 if (leftEndIndex === startIndex) {
-                    throw new ParsingError(input.currentIndex, "Missing left term of comparison")
+                    throw new ParsingError(input.currentIndex, "Missing left term of comparison");
                 }
 
                 if (input.current === "=") {
@@ -126,7 +126,7 @@ class Parser {
         }
 
         if (comparison === null) {
-            throw new ParsingError(input.currentIndex, "Expected comparison operator '=', '<=', '>=' or '~='")
+            throw new ParsingError(input.currentIndex, "Expected comparison operator '=', '<=', '>=' or '~='");
         }
 
         rightEndIndex = input.currentIndex;
