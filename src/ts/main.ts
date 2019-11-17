@@ -40,10 +40,19 @@ window.addEventListener("load", function analyzeAll(): void {
 
     const errorMessageElement = document.getElementById("error-messages");
     const inputElement = new InputElement("input");
+    const analyzeButton = document.getElementById("trigger-analyze");
     const resultElement = document.getElementById("result");
 
+    let lastText = inputElement.text;
     function updateResult(): void {
         const textToAnalyze: string = inputElement.text;
+        
+        if (textToAnalyze === lastText) {
+            lastText = textToAnalyze;
+            return;
+        }
+        lastText = textToAnalyze;
+
         const stringReader = new ForwardStringReader(textToAnalyze);
 
         let rootNode: INode;
@@ -62,7 +71,7 @@ window.addEventListener("load", function analyzeAll(): void {
         }
     }
 
-    inputElement.addInputEventListener(updateResult);
+    analyzeButton.addEventListener("click", updateResult);
 
     function highlightHoveredNode(event: MouseEvent): void {
         const hoveredNode = (event.target as HTMLElement).closest("#result .node") as HTMLElement;

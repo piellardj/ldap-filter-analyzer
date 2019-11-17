@@ -1,20 +1,10 @@
-type InputEventListener = () => void;
-
 class InputElement {
     private element: HTMLElement;
-    private inputEventListeners: InputEventListener[];
 
     public constructor(elementId: string) {
         const element = document.getElementById(elementId);
 
-        element.addEventListener("keyup", () => {
-            for (const listener of this.inputEventListeners) {
-                listener();
-            }
-        });
-
-        this.inputEventListeners = [];
-        this.inputEventListeners.push(function updateInputHeight(): void {
+        element.addEventListener("keyup", function updateInputHeight(): void {
             const inputPadding = 8;
 
             element.style.overflow = 'hidden';
@@ -23,10 +13,6 @@ class InputElement {
         });
 
         this.element = element;
-    }
-
-    public addInputEventListener(callback: InputEventListener): void {
-        this.inputEventListeners.push(callback);
     }
 
     public get text(): string {
