@@ -3,6 +3,8 @@ import Parser from "./parsing/parser";
 
 import INode from "./nodes/inode";
 
+import InputElement from "./input-element";
+
 const testedStrings: string[] = [
     "",
     "()",
@@ -36,11 +38,11 @@ window.addEventListener("load", function analyzeAll(): void {
     }
 
     const errorMessageElement = document.getElementById("error-messages");
-    const inputElement = document.getElementById("input") as HTMLTextAreaElement;
+    const inputElement = new InputElement("input");
     const resultElement = document.getElementById("result");
 
     function updateResult(): void {
-        const textToAnalyze: string = inputElement.textContent;
+        const textToAnalyze: string = inputElement.text;
         const stringReader = new ForwardStringReader(textToAnalyze);
 
         let rootNode: INode;
@@ -56,61 +58,35 @@ window.addEventListener("load", function analyzeAll(): void {
         }
     }
 
-    function updateInputHeight(): void {
-        const inputPadding = 8;
-
-        inputElement.style.overflow = 'hidden';
-        inputElement.style.height = "0";
-        inputElement.style.height = (inputElement.scrollHeight - 2 * inputPadding) + 'px';
-    }
-
-    inputElement.addEventListener("keyup", updateInputHeight);
-    inputElement.addEventListener("keyup", updateResult);
+    inputElement.addInputEventListener(updateResult);
 
     function highlightHoveredNode(event: MouseEvent): void {
         const hoveredNode = (event.target as HTMLElement).closest("#result .node") as HTMLElement;
+
+        let highlightCleared = false;
+
+        const nodes = resultElement.querySelectorAll(".node");
+        for (let i = 0; i < nodes.length; i++) {
+            if (nodes[i] !== hoveredNode && nodes[i].classList.contains("hovered")) {
+                highlightCleared = true;
+                nodes[i].classList.remove("hovered");
+            }
+        }
 
         if (hoveredNode !== null && !hoveredNode.classList.contains("hovered")) {
             hoveredNode.classList.add("hovered");
 
             const startIndex = +hoveredNode.dataset.startIndex;
             const endIndex = +hoveredNode.dataset.endIndex;
-
-            const inputText = inputElement.textContent;
-            const nodes: any[] = [];
-            nodes.push(document.createTextNode(inputText.substring(0, startIndex)));
-
-            const span = document.createElement("span");
-            span.className = "hovered";
-            span.textContent = inputText.substring(startIndex, endIndex);
-            nodes.push(span);
-
-            nodes.push(document.createTextNode(inputText.substring(endIndex)));
-
-            inputElement.innerHTML = "";
-            for (let i = 0; i < nodes.length; i++) {
-                inputElement.appendChild(nodes[i]);
-            }
-        } else {
-            let highlightCleared = false;
-
-            const nodes = resultElement.querySelectorAll(".node");
-            for (let i = 0; i < nodes.length; i++) {
-                if (nodes[i] !== hoveredNode && nodes[i].classList.contains("hovered")) {
-                    highlightCleared = true;
-                    nodes[i].classList.remove("hovered");
-                }
-            }
-
-            if (highlightCleared) {
-                inputElement.textContent = inputElement.textContent;
-            }
+            inputElement.applyClassToSubstring(startIndex, endIndex, "hovered");
+        } else if (highlightCleared) {
+            inputElement.clearHighlight();
         }
     }
 
     document.addEventListener("mousemove", highlightHoveredNode);
 
-    inputElement.textContent = "&((  |(hihi)(huhu)))   (huhu)";
+    inputElement.text = "&((  |(hihi)(huhu)))   (huhu)";
     updateResult();
 });
 
