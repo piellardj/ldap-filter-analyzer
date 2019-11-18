@@ -75,9 +75,7 @@ class Parser {
 
         partialNode.endIndex = input.currentIndex;
 
-        if (!partialNode.isValid()) {
-            throw new ParsingError(input.currentIndex, "Invalid agregation node");
-        }
+        partialNode.testValidity();
 
         return partialNode;
     }

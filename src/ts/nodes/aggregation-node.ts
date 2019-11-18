@@ -1,4 +1,5 @@
 import INode from "./inode";
+import ParsingError from "../parsing/parsing-error";
 
 enum AggregationOperation {
     AND,
@@ -31,15 +32,23 @@ class AggregationNode implements INode {
         }
     }
 
-    public isValid(): boolean {
+    public testValidity(): void {
         switch (this.operation) {
             case AggregationOperation.AND:
             case AggregationOperation.OR:
-                return this.children.length >= 2;
+                if (this.children.length < 2) {
+                    throw new ParsingError(this.endIndex + 1, "Missing opening parenthesis. AND and OR nodes must have at least 2 subnodes.");
+                }
+                break;
             case AggregationOperation.NOT:
-                return this.children.length === 1;
+                if (this.children.length === 0) {
+                    throw new ParsingError(this.endIndex + 1, "Missing opening parenthesis. NOT nodes must have exactly 1 subnode.");
+                } else if (this.children.length >= 2) {
+                    throw new ParsingError(this.children[0].endIndex + 1, "NOT nodes cannot have more than 1 subnode.");
+                }
+                break;
             default:
-                return false;
+                throw new ParsingError(this.startIndex, "");
         }
     }
 
