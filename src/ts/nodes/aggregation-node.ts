@@ -54,21 +54,19 @@ class AggregationNode implements INode {
 
     public toString(): string {
         if (this.operation === AggregationOperation.NOT) {
-            return "NOT " + this.children[0].toString();
-        } else if (this.operation === AggregationOperation.AND) {
-            const childrenStrList: string[] = [];
-            for (const child of this.children) {
-                childrenStrList.push(child.toString());
-            }
-            return "(" + childrenStrList.join(") AND (") + ")";
-        } else if (this.operation === AggregationOperation.OR) {
-            const childrenStrList: string[] = [];
-            for (const child of this.children) {
-                childrenStrList.push(child.toString());
-            }
-            return "(" + childrenStrList.join(") OR (") + ")";
+            return "(!" + this.children[0].toString() + ")";
         }
 
+        const childrenStrList: string[] = [];
+        for (const child of this.children) {
+            childrenStrList.push(child.toString());
+        }
+
+        if (this.operation === AggregationOperation.AND) {
+            return "(&" + childrenStrList.join("") + ")";
+        } else if (this.operation === AggregationOperation.OR) {
+            return "(|" + childrenStrList.join("") + ")";
+        }
         return "<empty>";
     }
 

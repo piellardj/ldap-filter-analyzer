@@ -62,6 +62,24 @@ class ComparisonNode implements INode {
     }
 
     public toString(): string {
+        if (this.comparison === EComparison.EQUALS) {
+            return "(" + this.lefthand + "=" + this.righthand + ")";
+        } else if (this.comparison === EComparison.GREATER_THAN) {
+            return "(" + this.lefthand + ">=" + this.righthand + ")";
+        } else if (this.comparison === EComparison.LOWER_THAN) {
+            return "(" + this.lefthand + "<=" + this.righthand + ")";
+        } else if (this.comparison === EComparison.PROXIMITY) {
+            return "(" + this.lefthand + "~=" + this.righthand + ")";
+        } else if (this.comparison === EComparison.STARTS_WITH) {
+            return "(" + this.lefthand + "=*" + this.righthand + ")";
+        } else if (this.comparison === EComparison.ENDS_WITH) {
+            return "(" + this.lefthand + "=" + this.righthand + "*)";
+        } else if (this.comparison === EComparison.CONTAINS) {
+            return "(" + this.lefthand + "=*" + this.righthand + "*)";
+        } else if (this.comparison === EComparison.EXISTS) {
+            return "(" + this.lefthand + "=*)";
+        }
+
         return this.lefthand + " " + this.comparison + " " + this.righthand;
     }
 
