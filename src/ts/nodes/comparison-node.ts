@@ -28,7 +28,7 @@ class ComparisonNode implements INode {
     public constructor(lefthand: string, righthand: string, comparison: EComparison) {
         this.lefthand = lefthand;
 
-        if (comparison === EComparison.EQUALS) {
+        if (comparison === EComparison.EQUALS && righthand.length > 0) {
             let realRighthandStart = 0;
             while (realRighthandStart < righthand.length && righthand[realRighthandStart] === "*") {
                 realRighthandStart++;
