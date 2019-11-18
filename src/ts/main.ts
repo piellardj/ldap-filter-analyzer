@@ -89,6 +89,6 @@ window.addEventListener("load", function analyzeAll(): void {
 
     document.addEventListener("mousemove", highlightHoveredNode);
 
-    inputElement.text = "&((  |(hihi)(huhu)))   (huhu)";
+    inputElement.text = "&(atleastonenode=*)(|(&(input=*operator)(numberofnodes>=1))(&(node=*comparison*)(lefthandvalue=*)(righthandvalue=*)))(allnodes=valid)";
     updateResult();
 });
