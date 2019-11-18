@@ -3,7 +3,7 @@ import LdapNode from "../nodes/inode";
 import Parser from "./parser";
 import ParsingError from "./parsing-error";
 
-function testErrorDetection(input: string, errorPosition: number): void {
+function testErrorDetection(caseName: string, input: string, errorPosition: number): void {
     const reader = new ForwardStringReader(input);
 
     let error: ParsingError = null;
@@ -13,67 +13,36 @@ function testErrorDetection(input: string, errorPosition: number): void {
         error = e;
     }
 
-    expect(error).toBeTruthy();
-    expect(error.position).toBe(errorPosition);
+    test(caseName + ": " + input, () => {
+        expect(error).toBeTruthy();
+        expect(error.position).toBe(errorPosition);
+    });
 }
 
-describe('Errors detection', function () {
-    test("Empty input", () => {
-        testErrorDetection("", 0);
-    });
+describe("Errors detection", function () {
+    testErrorDetection("Empty input", "", 0);
 
-    test("No comparison 1", () => {
-        testErrorDetection("haha", 4);
-    });
-    test("No comparison 2", () => {
-        testErrorDetection("(haha)", 5);
-    });
+    testErrorDetection("No comparison 1", "haha", 4);
+    testErrorDetection("No comparison 2", "(haha)", 5);
 
-    test("No left term 1", () => {
-        testErrorDetection("=hoho", 0);
-    });
-    test("No left term 2", () => {
-        testErrorDetection("(<=hoho)", 1);
-    });
-    test("No left term 3", () => {
-        testErrorDetection("&(key=value)(=hoho)", 13);
-    });
+    testErrorDetection("No left term 1", "=hoho", 0);
+    testErrorDetection("No left term 2", "(<=hoho)", 1);
+    testErrorDetection("No left term 3", "&(key=value)(=hoho)", 13);
 
-    test("No right term 1", () => {
-        testErrorDetection("haha=", 5);
-    });
-    test("No right term 2", () => {
-        testErrorDetection("(haha>=)", 7);
-    });
-    test("No right term 2", () => {
-        testErrorDetection("&(key=value)(haha=)", 18);
-    });
+    testErrorDetection("No right term 1", "haha=", 5);
+    testErrorDetection("No right term 1", "(haha>=)", 7);
+    testErrorDetection("No right term 1", "&(key=value)(haha=)", 18);
 
-    test("Missing closing parenthesis 1", () => {
-        testErrorDetection("(haha=hoho", 10);
-    });
-    test("Missing closing parenthesis 2", () => {
-        testErrorDetection("&((haha=hoho)(key=value))", 13);
-    });
+    testErrorDetection("Missing closing parenthesis 1", "(haha=hoho", 10);
+    testErrorDetection("Missing closing parenthesis 2", "&((haha=hoho)(key=value))", 13);
+    testErrorDetection("Missing closing parenthesis 3", "((((haha=hoho)))", 16);
 
-    test("Incomplete AND node 1", () => {
-        testErrorDetection("&", 1);
-    });
-    test("Incomplete AND node 2", () => {
-        testErrorDetection("&(key=value)", 12);
-    });
+    testErrorDetection("Incomplete AND node 1", "&", 1);
+    testErrorDetection("Incomplete AND node 2", "&(key=value)", 12);
 
-    test("Incomplete OR node 1", () => {
-        testErrorDetection("|", 1);
-    });
-    test("Incomplete OR node 2", () => {
-        testErrorDetection("|(key=value)", 12);
-    });
+    testErrorDetection("Incomplete OR node 1", "|", 1);
+    testErrorDetection("Incomplete OR node 2", "|(key=value)", 12);
 
-    test("Incomplete NOT node 1", () => {
-        testErrorDetection("!", 1);
-    });
-    test("Overcomplete NOT node 2", () => {
-        testErrorDetection("!(key=value)(key=value)", 11);
-    });
+    testErrorDetection("Incomplete NOT node 1", "!", 1);
+    testErrorDetection("Incomplete NOT node 2", "!(key=value)(key=value)", 11);
 });
