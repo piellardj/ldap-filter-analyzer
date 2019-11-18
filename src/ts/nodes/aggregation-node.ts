@@ -1,5 +1,5 @@
-import INode from "./inode";
 import ParsingError from "../parsing/parsing-error";
+import INode from "./inode";
 
 enum AggregationOperation {
     AND,

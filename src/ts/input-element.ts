@@ -27,7 +27,7 @@ class InputElement {
     }
 
     public applyClassToSubstring(startIndex: number, endIndex: number, classname: string): void {
-        let inputText = this.text;
+        const inputText = this.text;
 
         if (startIndex >= inputText.length) {
             startIndex = inputText.length - 1;
