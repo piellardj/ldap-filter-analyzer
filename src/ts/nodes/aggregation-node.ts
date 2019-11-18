@@ -37,14 +37,14 @@ class AggregationNode implements INode {
             case AggregationOperation.AND:
             case AggregationOperation.OR:
                 if (this.children.length < 2) {
-                    throw new ParsingError(this.endIndex + 1, "Missing opening parenthesis. AND and OR nodes must have at least 2 subnodes.");
+                    throw new ParsingError(this.endIndex, "Missing opening parenthesis. AND and OR nodes must have at least 2 subnodes.");
                 }
                 break;
             case AggregationOperation.NOT:
                 if (this.children.length === 0) {
-                    throw new ParsingError(this.endIndex + 1, "Missing opening parenthesis. NOT nodes must have exactly 1 subnode.");
+                    throw new ParsingError(this.endIndex, "Missing opening parenthesis. NOT nodes must have exactly 1 subnode.");
                 } else if (this.children.length >= 2) {
-                    throw new ParsingError(this.children[0].endIndex + 1, "NOT nodes cannot have more than 1 subnode.");
+                    throw new ParsingError(this.children[0].endIndex, "NOT nodes cannot have more than 1 subnode.");
                 }
                 break;
             default:
