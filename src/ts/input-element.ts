@@ -27,7 +27,12 @@ class InputElement {
     }
 
     public applyClassToSubstring(startIndex: number, endIndex: number, classname: string): void {
-        const inputText = this.text;
+        let inputText = this.text;
+
+        if (startIndex >= inputText.length) {
+            startIndex = inputText.length - 1;
+            endIndex = inputText.length;
+        }
 
         const left = document.createTextNode(inputText.substring(0, startIndex));
 
