@@ -129,16 +129,16 @@ class Parser {
 
         rightEndIndex = input.currentIndex;
 
-        if (rightEndIndex === rightStartIndex) {
-            throw new ParsingError(input.currentIndex, "Missing right term of comparison");
-        }
-
         const lefthand = input.substring(leftStartIndex, leftEndIndex);
         const righthand = input.substring(rightStartIndex, rightEndIndex);
 
         const node = new ComparisonNode(lefthand, righthand, comparison);
         node.startIndex = startIndex;
         node.endIndex = input.currentIndex;
+
+        if (node.comparison !== EComparison.IS_EMPTY && rightEndIndex === rightStartIndex) {
+            throw new ParsingError(input.currentIndex, "Missing right term of comparison");
+        }
 
         return node;
     }

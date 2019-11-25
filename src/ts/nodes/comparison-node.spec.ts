@@ -7,7 +7,6 @@ function testConversion(expected: EComparison, righthand: string): void {
 
 describe("Comparison node: conversion of EQUALS operator", function () {
     test("Equals conversion to EQUALS", function () {
-        testConversion(EComparison.EQUALS, "");
         testConversion(EComparison.EQUALS, "haha");
     });
 
@@ -31,5 +30,9 @@ describe("Comparison node: conversion of EQUALS operator", function () {
     test("Equals conversion to EXISTS", function () {
         testConversion(EComparison.EXISTS, "*");
         testConversion(EComparison.EXISTS, "******");
+    });
+
+    test("Equals conversion to IS_EMPTY", function () {
+        testConversion(EComparison.IS_EMPTY, "");
     });
 });

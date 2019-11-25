@@ -10,6 +10,7 @@ enum EComparison {
     ENDS_WITH,
     CONTAINS,
     EXISTS,
+    IS_EMPTY,
 }
 
 class ComparisonNode implements INode {
@@ -28,31 +29,36 @@ class ComparisonNode implements INode {
     public constructor(lefthand: string, righthand: string, comparison: EComparison) {
         this.lefthand = lefthand;
 
-        if (comparison === EComparison.EQUALS && righthand.length > 0) {
-            let realRighthandStart = 0;
-            while (realRighthandStart < righthand.length && righthand[realRighthandStart] === "*") {
-                realRighthandStart++;
-            }
-
-            if (realRighthandStart === righthand.length) {
-                this.comparison = EComparison.EXISTS;
+        if (comparison === EComparison.EQUALS) {
+            if (righthand.length === 0) {
                 this.righthand = "";
+                this.comparison = EComparison.IS_EMPTY;
             } else {
-                let realRighthandEnd = righthand.length - 1;
-                while (realRighthandEnd > 0 && righthand[realRighthandEnd] === "*") {
-                    realRighthandEnd--;
+                let realRighthandStart = 0;
+                while (realRighthandStart < righthand.length && righthand[realRighthandStart] === "*") {
+                    realRighthandStart++;
                 }
 
-                this.righthand = righthand.substring(realRighthandStart, realRighthandEnd + 1);
-
-                if (realRighthandStart !== 0 && realRighthandEnd !== righthand.length - 1) {
-                    this.comparison = EComparison.CONTAINS;
-                } else if (realRighthandStart !== 0) {
-                    this.comparison = EComparison.ENDS_WITH;
-                } else if (realRighthandEnd !== righthand.length - 1) {
-                    this.comparison = EComparison.STARTS_WITH;
+                if (realRighthandStart === righthand.length) {
+                    this.comparison = EComparison.EXISTS;
+                    this.righthand = "";
                 } else {
-                    this.comparison = EComparison.EQUALS;
+                    let realRighthandEnd = righthand.length - 1;
+                    while (realRighthandEnd > 0 && righthand[realRighthandEnd] === "*") {
+                        realRighthandEnd--;
+                    }
+
+                    this.righthand = righthand.substring(realRighthandStart, realRighthandEnd + 1);
+
+                    if (realRighthandStart !== 0 && realRighthandEnd !== righthand.length - 1) {
+                        this.comparison = EComparison.CONTAINS;
+                    } else if (realRighthandStart !== 0) {
+                        this.comparison = EComparison.ENDS_WITH;
+                    } else if (realRighthandEnd !== righthand.length - 1) {
+                        this.comparison = EComparison.STARTS_WITH;
+                    } else {
+                        this.comparison = EComparison.EQUALS;
+                    }
                 }
             }
         } else {
@@ -78,6 +84,8 @@ class ComparisonNode implements INode {
             return "(" + this.lefthand + "=*" + this.righthand + "*)";
         } else if (this.comparison === EComparison.EXISTS) {
             return "(" + this.lefthand + "=*)";
+        } else if (this.comparison === EComparison.IS_EMPTY) {
+            return "(" + this.lefthand + "=)";
         }
 
         return this.lefthand + " " + this.comparison + " " + this.righthand;
@@ -96,8 +104,11 @@ class ComparisonNode implements INode {
         comparisonElement.className = "comparison";
 
         if (this.comparison === EComparison.EXISTS) {
-            comparisonElement.textContent = " exists ";
-
+            comparisonElement.textContent = " exists";
+            divElement.appendChild(leftElement);
+            divElement.appendChild(comparisonElement);
+        } else if (this.comparison === EComparison.IS_EMPTY) {
+            comparisonElement.textContent = " is empty";
             divElement.appendChild(leftElement);
             divElement.appendChild(comparisonElement);
         } else {
