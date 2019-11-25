@@ -11,14 +11,14 @@ describe("Comparison node: conversion of EQUALS operator", function () {
         testConversion(EComparison.EQUALS, "haha");
     });
 
-    test("Equals conversion to STARTS_WITH", function () {
-        testConversion(EComparison.STARTS_WITH, "*haha");
-        testConversion(EComparison.STARTS_WITH, "****haha");
+    test("Equals conversion to ENDS_WITH", function () {
+        testConversion(EComparison.ENDS_WITH, "*haha");
+        testConversion(EComparison.ENDS_WITH, "****haha");
     });
 
-    test("Equals conversion to ENDS_WITH", function () {
-        testConversion(EComparison.ENDS_WITH, "haha*");
-        testConversion(EComparison.ENDS_WITH, "haha*****");
+    test("Equals conversion to STARTS_WITH", function () {
+        testConversion(EComparison.STARTS_WITH, "haha*");
+        testConversion(EComparison.STARTS_WITH, "haha*****");
     });
 
     test("Equals conversion to CONTAINS", function () {

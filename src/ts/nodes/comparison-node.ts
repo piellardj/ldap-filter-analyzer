@@ -48,9 +48,9 @@ class ComparisonNode implements INode {
                 if (realRighthandStart !== 0 && realRighthandEnd !== righthand.length - 1) {
                     this.comparison = EComparison.CONTAINS;
                 } else if (realRighthandStart !== 0) {
-                    this.comparison = EComparison.STARTS_WITH;
-                } else if (realRighthandEnd !== righthand.length - 1) {
                     this.comparison = EComparison.ENDS_WITH;
+                } else if (realRighthandEnd !== righthand.length - 1) {
+                    this.comparison = EComparison.STARTS_WITH;
                 } else {
                     this.comparison = EComparison.EQUALS;
                 }
@@ -71,9 +71,9 @@ class ComparisonNode implements INode {
         } else if (this.comparison === EComparison.PROXIMITY) {
             return "(" + this.lefthand + "~=" + this.righthand + ")";
         } else if (this.comparison === EComparison.STARTS_WITH) {
-            return "(" + this.lefthand + "=*" + this.righthand + ")";
-        } else if (this.comparison === EComparison.ENDS_WITH) {
             return "(" + this.lefthand + "=" + this.righthand + "*)";
+        } else if (this.comparison === EComparison.ENDS_WITH) {
+            return "(" + this.lefthand + "=*" + this.righthand + ")";
         } else if (this.comparison === EComparison.CONTAINS) {
             return "(" + this.lefthand + "=*" + this.righthand + "*)";
         } else if (this.comparison === EComparison.EXISTS) {
