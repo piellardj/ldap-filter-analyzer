@@ -69,7 +69,7 @@ window.addEventListener("load", function analyzeAll(): void {
         let highlightCleared = false;
 
         const nodes = resultElement.querySelectorAll(".node");
-        for (let i = 0; i < nodes.length; i++) {
+        for (let i = 0; i < nodes.length; i++) { // tslint:disable-line:prefer-for-of
             if (nodes[i] !== hoveredNode && nodes[i].classList.contains("hovered")) {
                 highlightCleared = true;
                 nodes[i].classList.remove("hovered");
