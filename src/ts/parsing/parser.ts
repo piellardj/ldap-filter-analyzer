@@ -91,6 +91,8 @@ class Parser {
         let rightStartIndex = null;
         let rightEndIndex = null;
         while (!input.endOfString && input.current !== ")") {
+            let needToReadNextCharacter = true;
+
             if (leftEndIndex === null && ComparisonNode.isComparisonCharacter(input.current)) {
                 leftEndIndex = input.currentIndex;
 
@@ -101,15 +103,19 @@ class Parser {
                 if (input.current === "=") {
                     comparison = EComparison.EQUALS;
                 } else if (input.current === "<") {
-                    if (input.next() !== "=") {
-                        throw new ParsingError(input.currentIndex, "Expected '=' character");
+                    if (input.next() === "=") {
+                        comparison = EComparison.LOWER_OR_EQUAL_THAN;
+                    } else {
+                        comparison = EComparison.LOWER_THAN;
+                        needToReadNextCharacter = false; // next character already read
                     }
-                    comparison = EComparison.LOWER_THAN;
                 } else if (input.current === ">") {
-                    if (input.next() !== "=") {
-                        throw new ParsingError(input.currentIndex, "Expected '=' character");
+                    if (input.next() === "=") {
+                        comparison = EComparison.GREATER_OR_EQUAL_THAN;
+                    } else {
+                        comparison = EComparison.GREATER_THAN;
+                        needToReadNextCharacter = false; // next character already read
                     }
-                    comparison = EComparison.GREATER_THAN;
                 } else if (input.current === "~") {
                     if (input.next() !== "=") {
                         throw new ParsingError(input.currentIndex, "Expected '=' character");
@@ -117,10 +123,16 @@ class Parser {
                     comparison = EComparison.PROXIMITY;
                 }
 
-                rightStartIndex = input.currentIndex + 1;
+                if (needToReadNextCharacter) {
+                    rightStartIndex = input.currentIndex + 1;
+                } else {
+                    rightStartIndex = input.currentIndex;
+                }
             }
 
-            input.next();
+            if (needToReadNextCharacter) {
+                input.next();
+            }
         }
 
         if (comparison === null) {

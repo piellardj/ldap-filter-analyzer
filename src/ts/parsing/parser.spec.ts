@@ -31,6 +31,8 @@ describe("Errors detection", function () {
     testErrorDetection("No right term 1", "(haha>=)", 7);
     testErrorDetection("No right term 2", "(haha<=)", 7);
     testErrorDetection("No right term 3", "(haha~=)", 7);
+    testErrorDetection("No right term 4", "(haha>)", 6);
+    testErrorDetection("No right term 5", "(haha<)", 6);
 
     testErrorDetection("Missing closing parenthesis 1", "(haha=hoho", 10);
     testErrorDetection("Missing closing parenthesis 2", "&((haha=hoho)(key=value))", 13);
@@ -74,12 +76,15 @@ describe("Valid parsing", function () {
     testValidInput("Comparison 7", " key<=value", "(key<=value)");
     testValidInput("Comparison 8", " key~=value", "(key~=value)");
     testValidInput("Comparison 9", " key=", "(key=)");
+    testValidInput("Comparison 10", " key>value", "(key>value)");
+    testValidInput("Comparison 11", " key<value", "(key<value)");
 
     testValidInput("Aggregation 1", "& (key1=value1)(key2<=value2)", "(&(key1=value1)(key2<=value2))");
     testValidInput("Aggregation 2", "&  (key1=value1)(key2=****value2)", "(&(key1=value1)(key2=*value2))");
     testValidInput("Aggregation 3", " |(key1=value1) (key2<=value2)", "(|(key1=value1)(key2<=value2))");
     testValidInput("Aggregation 4", "|(key1=value1)  (key2=****value2)", "(|(key1=value1)(key2=*value2))");
     testValidInput("Aggregation 5", " ( !   (key1=value1))", "(!(key1=value1))");
+    testValidInput("Aggregation 6", " |(key1=value1) (key2<value2)", "(|(key1=value1)(key2<value2))");
 
-    testValidInput("Complex 1", " &(key1=**)\n ((|(key=value)(key2<=5)(!((hihi=haha)))))", "(&(key1=*)(|(key=value)(key2<=5)(!(hihi=haha))))");
+    testValidInput("Complex 1", " &(key1=**)\n ((|(key=value)(key2<=5)(key3>4)(!((hihi=haha)))))", "(&(key1=*)(|(key=value)(key2<=5)(key3>4)(!(hihi=haha))))");
 });

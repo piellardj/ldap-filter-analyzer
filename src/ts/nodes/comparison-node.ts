@@ -3,7 +3,9 @@ import INode from "./inode";
 enum EComparison {
     EQUALS,
     GREATER_THAN,
+    GREATER_OR_EQUAL_THAN,
     LOWER_THAN,
+    LOWER_OR_EQUAL_THAN,
     PROXIMITY,
 
     STARTS_WITH,
@@ -71,8 +73,12 @@ class ComparisonNode implements INode {
         if (this.comparison === EComparison.EQUALS) {
             return "(" + this.lefthand + "=" + this.righthand + ")";
         } else if (this.comparison === EComparison.GREATER_THAN) {
+            return "(" + this.lefthand + ">" + this.righthand + ")";
+        } else if (this.comparison === EComparison.GREATER_OR_EQUAL_THAN) {
             return "(" + this.lefthand + ">=" + this.righthand + ")";
         } else if (this.comparison === EComparison.LOWER_THAN) {
+            return "(" + this.lefthand + "<" + this.righthand + ")";
+        } else if (this.comparison === EComparison.LOWER_OR_EQUAL_THAN) {
             return "(" + this.lefthand + "<=" + this.righthand + ")";
         } else if (this.comparison === EComparison.PROXIMITY) {
             return "(" + this.lefthand + "~=" + this.righthand + ")";
@@ -116,8 +122,12 @@ class ComparisonNode implements INode {
                 comparisonElement.textContent = " equals ";
             } else if (this.comparison === EComparison.GREATER_THAN) {
                 comparisonElement.textContent = " greater than ";
+            } else if (this.comparison === EComparison.GREATER_OR_EQUAL_THAN) {
+                comparisonElement.textContent = " greater or equal than ";
             } else if (this.comparison === EComparison.LOWER_THAN) {
                 comparisonElement.textContent = " lower than ";
+            } else if (this.comparison === EComparison.LOWER_OR_EQUAL_THAN) {
+                comparisonElement.textContent = " lower or equal than ";
             } else if (this.comparison === EComparison.PROXIMITY) {
                 comparisonElement.textContent = " approx ";
             } else if (this.comparison === EComparison.STARTS_WITH) {
