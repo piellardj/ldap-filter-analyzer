@@ -23,6 +23,8 @@
 }
 
 #contents {
+    display: flex;
+    flex-flow: column nowrap;
     max-width: 800px;
     width: 100%;
     padding: 8px;
@@ -56,8 +58,44 @@
 }
 
 .section {
+    flex: 1;
     margin: 16px;
     border-radius: 9px;
     border: 1px solid #c9c9c9;
     text-align: left;
+}
+
+@media only screen and (min-width: 1200px) {
+    #contents {
+        flex-flow: row nowrap;
+        align-items: flex-start;
+        max-width: 2000px;
+    }
+
+    #action-section {
+        margin-top: 32px;
+        width: 300px;
+    }
+
+    .section {
+        max-height: calc(100vh - 200px);
+        overflow-y: auto;
+    }
+}
+
+.section::-webkit-scrollbar {
+    width: 13px;
+    height: 13px;
+}
+.section::-webkit-scrollbar-track {
+	background: none;
+}
+.section::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    border: 3px solid rgba(255, 255, 255, 0);
+    background-clip: content-box;
+    background-color: #aaa;
+}
+.section::-webkit-scrollbar-thumb:hover {
+    background-color: #888;
 }

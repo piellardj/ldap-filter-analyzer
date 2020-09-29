@@ -1,18 +1,8 @@
 class InputElement {
-    public element: HTMLElement;
+    public readonly element: HTMLElement;
 
     public constructor(elementId: string) {
-        const element = document.getElementById(elementId);
-
-        element.addEventListener("keyup", function updateInputHeight(): void {
-            const inputPadding = 8;
-
-            element.style.overflow = "hidden";
-            element.style.height = "0";
-            element.style.height = (element.scrollHeight - 2 * inputPadding) + "px";
-        });
-
-        this.element = element;
+        this.element = document.getElementById(elementId);
     }
 
     public get text(): string {
