@@ -21,11 +21,8 @@ const data = {
 };
 
 const DEST_DIR = path.resolve(__dirname, "..", "docs");
-const minified = true;
 
-const buildResult = DemopageEmpty.build(data, DEST_DIR, {
-    debug: !minified,
-});
+const buildResult = DemopageEmpty.build(data, DEST_DIR);
 
 // disable linting on this file because it is generated
 buildResult.pageScriptDeclaration = "/* tslint:disable */\n" + buildResult.pageScriptDeclaration;
