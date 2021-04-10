@@ -14,7 +14,7 @@
     "webpack": "webpack --config src/config/webpack.config.js"
   },
   "author": "“Jérémie PIELLARD <jeremie.piellard@gmail.com> (https://github.com/piellardj)",
-  "repository": "github:piellardj/strange-attractors-webgl",
+  "repository": "github:piellardj/ldap-filter-analyzer",
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^26.0.14",
