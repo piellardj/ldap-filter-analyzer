@@ -10,6 +10,7 @@ module.exports = {
         filename: "main.min.js",
         path: path.join(PROJECT_DIR, "docs", "script")
     },
+	target: ["web", "es5"],
     resolve: {
         extensions: [".ts"]
     },
