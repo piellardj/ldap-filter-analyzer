@@ -15,11 +15,11 @@
 }
 
 .hovered {
-    background: rgba(0, 150, 136, 0.2);
+    background: #A8D7D2;
 }
 
 .error {
-    background: rgba(255, 0, 0, 0.5);
+    background: #FF9999;
 }
 
 #contents {
@@ -128,8 +128,13 @@ button#trigger-analyze:hover, button#trigger-analyze:focus {
     #result {
         background: #202020;
     }
-
     .section {
         border-color: #535353;
+    }
+    .hovered {
+        background: #0F594F;
+    }
+    .error {
+        background: #BF0000;
     }
 }
